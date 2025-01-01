@@ -6,8 +6,8 @@ export const Hero = () => {
       <div className="container mx-auto px-4">
         <div className="text-center">
           <h1 className="mb-8 text-5xl font-bold tracking-tight text-primary md:text-6xl">
-            Create AI Chatbots for Your{" "}
-            <span className="text-secondary">University</span>
+            <span className="text-secondary">AIversity</span>: Create AI Chatbots{" "}
+            for Your University
           </h1>
           <p className="mx-auto mb-12 max-w-2xl text-lg text-gray-600">
             Transform your university's website into an intelligent chatbot. Upload
