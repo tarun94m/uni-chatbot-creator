@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Chatbot from "./pages/Chatbot";
+import DemoForm from "./components/DemoForm";
+import { Pricing } from "./components/Pricing";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +23,8 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/demo-request" element={<DemoForm />} />
+          <Route path="/pricing" element={<Pricing />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

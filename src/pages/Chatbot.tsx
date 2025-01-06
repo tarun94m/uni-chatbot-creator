@@ -1,15 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Bot, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Chatbot = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleDemoClick = () => {
-    toast({
-      title: "Demo Requested",
-      description: "Our team will contact you shortly to schedule a demo.",
-    });
+    navigate("/demo-request");
   };
 
   return (
@@ -91,7 +90,7 @@ const Chatbot = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => window.location.href = '#pricing'}
+            onClick={() => navigate("/pricing")}
             className="gap-2"
           >
             View Pricing
