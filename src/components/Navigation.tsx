@@ -1,6 +1,6 @@
 import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export const Navigation = () => {
+  const navigate = useNavigate();
+
   return (
     <nav className="border-b bg-white">
       <div className="container mx-auto px-4">
@@ -27,7 +29,7 @@ export const Navigation = () => {
                 </Link>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="center" className="w-48">
-                <DropdownMenuItem className="gap-2">
+                <DropdownMenuItem onClick={() => navigate("/chatbot")} className="gap-2">
                   <MessageSquare className="h-4 w-4" />
                   Chatbot
                 </DropdownMenuItem>
