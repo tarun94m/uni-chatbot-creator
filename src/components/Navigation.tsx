@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome } from "lucide-react";
+import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import {
@@ -19,10 +19,20 @@ export const Navigation = () => {
           
           {/* Centered navigation links */}
           <div className="hidden md:flex items-center gap-6 flex-1 justify-center">
-            <Link to="/product" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
-              <Briefcase className="h-4 w-4" />
-              Product
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Link to="/product" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+                  <Briefcase className="h-4 w-4" />
+                  Product
+                </Link>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-48">
+                <DropdownMenuItem className="gap-2">
+                  <MessageSquare className="h-4 w-4" />
+                  Chatbot
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Link to="/about" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
               <Users className="h-4 w-4" />
               About Us
