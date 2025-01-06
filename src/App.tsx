@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import Chatbot from "./pages/Chatbot";
 import DemoForm from "./components/DemoForm";
 import { Pricing } from "./components/Pricing";
+import SignUp from "./pages/SignUp";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/demo-request" element={<DemoForm />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

@@ -66,21 +66,14 @@ export const Navigation = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Sign Up Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="gap-2 bg-secondary hover:bg-secondary/90">
-                  <UserPlus className="h-4 w-4" />
-                  Sign Up
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem className="gap-2">
-                  <Chrome className="h-4 w-4" />
-                  Sign up with Google
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Sign Up Button */}
+            <Button 
+              onClick={() => navigate("/signup")} 
+              className="gap-2 bg-secondary hover:bg-secondary/90"
+            >
+              <UserPlus className="h-4 w-4" />
+              Sign Up
+            </Button>
           </div>
         </div>
       </div>
