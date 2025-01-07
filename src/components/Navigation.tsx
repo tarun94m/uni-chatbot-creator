@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare } from "lucide-react";
+import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -26,6 +26,7 @@ export const Navigation = () => {
                 <Link to="/product" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
                   <Briefcase className="h-4 w-4" />
                   Product
+                  <ChevronDown className="h-4 w-4" />
                 </Link>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="center" className="w-48">
