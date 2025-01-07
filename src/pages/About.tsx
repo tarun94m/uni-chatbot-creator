@@ -4,7 +4,7 @@ const About = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 mt-16">
         <h1 className="text-4xl font-bold text-primary mb-8">About Us</h1>
         
         <div className="space-y-8 max-w-3xl">

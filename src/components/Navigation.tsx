@@ -12,7 +12,7 @@ export const Navigation = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="border-b bg-white">
+    <nav className="fixed top-0 left-0 right-0 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 z-50">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="text-2xl font-bold text-primary">
