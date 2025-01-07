@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { MessageSquare, Bot, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
 
 const Chatbot = () => {
   const { toast } = useToast();
@@ -13,7 +14,10 @@ const Chatbot = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-16">
+      <div className="fixed top-0 w-full z-50">
+        <Navigation />
+      </div>
+      <div className="container mx-auto px-4 py-16 mt-16">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-primary mb-4">
             AI-Powered University Chatbot
