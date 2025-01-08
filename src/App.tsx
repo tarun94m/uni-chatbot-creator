@@ -11,6 +11,7 @@ import DemoForm from "./components/DemoForm";
 import { Pricing } from "./components/Pricing";
 import SignUp from "./pages/SignUp";
 import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
