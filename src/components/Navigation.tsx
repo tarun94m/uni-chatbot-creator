@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown } from "lucide-react";
+import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -15,7 +15,8 @@ export const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 z-50">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-primary">
+          <Link to="/" className="text-2xl font-bold text-primary flex items-center gap-2">
+            <Cpu className="h-6 w-6 text-secondary" />
             <span className="text-secondary">AI</span>versity
           </Link>
           

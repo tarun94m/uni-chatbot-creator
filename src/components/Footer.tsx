@@ -1,4 +1,4 @@
-import { Copyright, Linkedin, ShieldCheck } from "lucide-react";
+import { Copyright, Linkedin, ShieldCheck, Cpu } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
@@ -10,7 +10,10 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-start mb-8">
           {/* Website Name and Social Media */}
           <div className="mb-8 md:mb-0">
-            <h2 className="text-2xl font-bold text-primary mb-4">AIversity</h2>
+            <h2 className="text-2xl font-bold text-primary mb-4 flex items-center gap-2">
+              <Cpu className="h-6 w-6 text-secondary" />
+              <span className="text-secondary">AI</span>versity
+            </h2>
             <div className="flex items-center gap-4">
               <a
                 href="https://linkedin.com/company/aiversity"
@@ -37,7 +40,6 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Navigation Sections */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Support Section */}
             <div>
