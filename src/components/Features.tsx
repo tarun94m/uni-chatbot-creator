@@ -1,4 +1,5 @@
 import { Bot, Globe, FileText, Share2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const features = [
   {
@@ -6,25 +7,31 @@ const features = [
     description:
       "Automatically extract information from your university website",
     icon: Globe,
+    path: "/chatbot",
   },
   {
     title: "PDF Processing",
     description: "Upload and process PDF documents for your chatbot",
     icon: FileText,
+    path: "/chatbot",
   },
   {
     title: "AI Integration",
     description: "Powered by Claude and ChatGPT for intelligent responses",
     icon: Bot,
+    path: "/chatbot",
   },
   {
-    title: "Easy Sharing",
-    description: "Share your chatbot with a simple embed code",
+    title: "Automation",
+    description: "Streamline university operations with intelligent automation",
     icon: Share2,
+    path: "/automation",
   },
 ];
 
 export const Features = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="py-24 bg-white">
       <div className="container mx-auto px-4">
@@ -41,7 +48,8 @@ export const Features = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="p-6 rounded-lg border border-gray-200 hover:border-secondary/50 transition-colors"
+              className="p-6 rounded-lg border border-gray-200 hover:border-secondary/50 transition-colors cursor-pointer"
+              onClick={() => navigate(feature.path)}
             >
               <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-4">
                 <feature.icon className="w-6 h-6 text-secondary" />
