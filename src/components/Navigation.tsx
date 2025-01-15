@@ -48,25 +48,15 @@ export const Navigation = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Login Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="gap-2">
-                  <LogIn className="h-4 w-4" />
-                  Login
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem className="gap-2">
-                  <Chrome className="h-4 w-4" />
-                  Google Login
-                </DropdownMenuItem>
-                <DropdownMenuItem className="gap-2">
-                  <LogIn className="h-4 w-4" />
-                  SSO Login
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Login Button */}
+            <Button 
+              onClick={() => navigate("/login")} 
+              variant="ghost" 
+              className="gap-2"
+            >
+              <LogIn className="h-4 w-4" />
+              Login
+            </Button>
 
             {/* Sign Up Button */}
             <Button 
