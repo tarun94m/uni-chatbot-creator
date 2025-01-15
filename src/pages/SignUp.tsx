@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import {
   Form,
   FormControl,
@@ -40,7 +42,6 @@ const SignUp = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // Here you would typically handle the sign-up logic
       console.log("Form submitted:", values);
       
       toast({
@@ -59,63 +60,67 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-md space-y-6">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Sign Up for AIversity</h1>
-          <p className="text-gray-500">Create your university account</p>
+    <div className="min-h-screen flex flex-col">
+      <Navigation />
+      <div className="flex-grow flex items-center justify-center bg-gray-50">
+        <div className="w-full max-w-md space-y-6 bg-white rounded-lg shadow-lg m-4 p-8">
+          <div className="space-y-2 text-center">
+            <h1 className="text-2xl font-bold text-primary">Sign Up for AIversity</h1>
+            <p className="text-gray-500">Create your university account</p>
+          </div>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="universityName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>University Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter university name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>University Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="university@edu" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="••••••••" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <Button type="submit" className="w-full">
+                Sign Up
+              </Button>
+            </form>
+          </Form>
         </div>
-        
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="universityName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>University Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter university name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>University Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="university@edu" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <Button type="submit" className="w-full">
-              Sign Up
-            </Button>
-          </form>
-        </Form>
       </div>
+      <Footer />
     </div>
   );
 };
