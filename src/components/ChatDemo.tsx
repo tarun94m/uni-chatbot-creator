@@ -13,12 +13,13 @@ import { Label } from "@/components/ui/label";
 import { processWithOpenAI, processWithClaude } from "@/lib/ai-service";
 import { Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export const ChatDemo = () => {
+  const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
-  const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState<"openai" | "claude">("openai");
 
@@ -48,11 +49,12 @@ export const ChatDemo = () => {
         }
       }
 
-      const result = selectedModel === "openai" 
-        ? await processWithOpenAI(content, process.env.OPENAI_API_KEY!)
-        : await processWithClaude(content, process.env.ANTHROPIC_API_KEY!);
-
-      setResponse(result);
+      // Store the selected model in localStorage
+      localStorage.setItem("selectedModel", selectedModel);
+      
+      // Navigate to chat interface
+      navigate("/chat-interface");
+      
     } catch (error) {
       console.error("Error:", error);
       toast.error("Failed to process request");
@@ -139,13 +141,6 @@ export const ChatDemo = () => {
             </>
           )}
         </Button>
-
-        {response && (
-          <div className="mt-4 p-4 bg-secondary/10 rounded-lg">
-            <Label>AI Response:</Label>
-            <p className="mt-2 whitespace-pre-wrap">{response}</p>
-          </div>
-        )}
       </CardContent>
     </Card>
   );

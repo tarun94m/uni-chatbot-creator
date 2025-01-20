@@ -14,6 +14,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Login from "./pages/Login";
 import Automation from "./pages/Automation";
+import ChatInterface from "./pages/ChatInterface";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/login" element={<Login />} />
           <Route path="/automation" element={<Automation />} />
+          <Route path="/chat-interface" element={<ChatInterface />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
