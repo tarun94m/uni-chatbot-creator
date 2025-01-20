@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { MessageSquare, Bot, ArrowRight, Clock, BarChart3, Users } from "lucide-react";
+import { MessageSquare, Bot, ArrowRight, Clock, BarChart3, Users, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import { ChatDemo } from "@/components/ChatDemo";
 
 const Chatbot = () => {
   const { toast } = useToast();
@@ -84,41 +85,17 @@ const Chatbot = () => {
           </div>
         </div>
 
-        {/* New Proactive Messaging Section */}
-        <div className="py-16 bg-white rounded-lg shadow-sm mb-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-primary mb-4">
-                Proactive, Proven Messaging
-              </h2>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="p-6 rounded-lg border border-gray-200">
-                <h3 className="text-xl font-semibold text-primary mb-3">
-                  Inspiring Action
-                </h3>
-                <p className="text-gray-600">
-                  Proactive messaging proven to inspire action with accurate, instant answers tailored to each learner.
-                </p>
-              </div>
-              <div className="p-6 rounded-lg border border-gray-200">
-                <h3 className="text-xl font-semibold text-primary mb-3">
-                  Best Practice Collections
-                </h3>
-                <p className="text-gray-600">
-                  A full calendar year of best practice collections designed to spark progress at critical milestones.
-                </p>
-              </div>
-              <div className="p-6 rounded-lg border border-gray-200">
-                <h3 className="text-xl font-semibold text-primary mb-3">
-                  Student-First Language
-                </h3>
-                <p className="text-gray-600">
-                  Inclusive, student-first language that resonates with your diverse learner population.
-                </p>
-              </div>
-            </div>
+        {/* Add Demo Section */}
+        <div className="container mx-auto px-4 py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-primary mb-4">
+              Try Our AI Chat Demo
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Experience the power of our AI chatbot with document and URL processing capabilities
+            </p>
           </div>
+          <ChatDemo />
         </div>
 
         {/* AI Technology Section */}
