@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,8 +21,35 @@ const ChatInterface = () => {
     return localStorage.getItem("selectedModel") as "openai" | "claude" || "openai";
   });
 
+  useEffect(() => {
+    // Get the initial prompt from localStorage
+    const initialPrompt = localStorage.getItem("initialPrompt");
+    if (initialPrompt) {
+      setMessages([{ role: 'user', content: initialPrompt }]);
+      handleInitialPrompt(initialPrompt);
+      // Clear the initial prompt from localStorage
+      localStorage.removeItem("initialPrompt");
+    }
+  }, []);
+
+  const handleInitialPrompt = async (prompt: string) => {
+    try {
+      setIsLoading(true);
+      const response = selectedModel === "openai"
+        ? await processWithOpenAI(prompt)
+        : await processWithClaude(prompt);
+
+      setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+    } catch (error) {
+      console.error("Error processing initial prompt:", error);
+      toast.error("Failed to process initial prompt");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSendMessage = async () => {
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || isLoading) return;
 
     try {
       setIsLoading(true);
@@ -33,15 +60,15 @@ const ChatInterface = () => {
 
       // Process with selected AI model
       const response = selectedModel === "openai"
-        ? await processWithOpenAI(newMessage, process.env.OPENAI_API_KEY!)
-        : await processWithClaude(newMessage, process.env.ANTHROPIC_API_KEY!);
+        ? await processWithOpenAI(newMessage)
+        : await processWithClaude(newMessage);
 
       // Add AI response to chat
       const aiMessage: Message = { role: 'assistant', content: response };
       setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
       console.error("Error:", error);
-      toast.error("Failed to get response from AI");
+      toast.error(`Failed to get response from ${selectedModel === "openai" ? "GPT-4" : "Claude"}`);
     } finally {
       setIsLoading(false);
     }
@@ -73,6 +100,11 @@ const ChatInterface = () => {
                     </div>
                   </div>
                 ))}
+                {isLoading && (
+                  <div className="flex justify-center">
+                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  </div>
+                )}
               </div>
             </ScrollArea>
             

@@ -6,46 +6,46 @@ interface ChatMessage {
 }
 
 export const processWithOpenAI = async (
-  content: string,
-  apiKey: string
+  content: string
 ): Promise<string> => {
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4',
+        model: 'gpt-4o-mini',
         messages: [{ role: 'user', content }],
         temperature: 0.7,
       }),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to process with OpenAI');
+      const errorData = await response.json();
+      console.error('OpenAI Error:', errorData);
+      throw new Error(errorData.error?.message || 'Failed to process with OpenAI');
     }
 
     const data = await response.json();
     return data.choices[0].message.content;
   } catch (error) {
     console.error('OpenAI Error:', error);
-    toast.error('Failed to process with OpenAI');
+    toast.error('Failed to process with OpenAI: ' + error.message);
     throw error;
   }
 };
 
 export const processWithClaude = async (
-  content: string,
-  apiKey: string
+  content: string
 ): Promise<string> => {
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': process.env.ANTHROPIC_API_KEY!,
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
@@ -56,14 +56,16 @@ export const processWithClaude = async (
     });
 
     if (!response.ok) {
-      throw new Error('Failed to process with Claude');
+      const errorData = await response.json();
+      console.error('Claude Error:', errorData);
+      throw new Error(errorData.error?.message || 'Failed to process with Claude');
     }
 
     const data = await response.json();
     return data.content[0].text;
   } catch (error) {
     console.error('Claude Error:', error);
-    toast.error('Failed to process with Claude');
+    toast.error('Failed to process with Claude: ' + error.message);
     throw error;
   }
 };

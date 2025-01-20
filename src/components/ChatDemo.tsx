@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { processWithOpenAI, processWithClaude } from "@/lib/ai-service";
 import { Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -45,12 +44,15 @@ export const ChatDemo = () => {
           const text = await response.text();
           content += "\n\nContent from URL:\n" + text;
         } catch (error) {
+          console.error('URL fetch error:', error);
           toast.error("Failed to fetch URL content");
+          return;
         }
       }
 
-      // Store the selected model in localStorage
+      // Store the data in localStorage
       localStorage.setItem("selectedModel", selectedModel);
+      localStorage.setItem("initialPrompt", content);
       
       // Navigate to chat interface
       navigate("/chat-interface");
