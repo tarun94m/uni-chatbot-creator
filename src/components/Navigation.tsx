@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown, Cpu, Share2 } from "lucide-react";
+import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown, Cpu, Share2, Notebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -20,7 +20,6 @@ export const Navigation = () => {
             <span className="text-secondary">AI</span>versity
           </Link>
           
-          {/* Centered navigation links */}
           <div className="hidden md:flex items-center gap-6 flex-1 justify-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -39,6 +38,10 @@ export const Navigation = () => {
                   <Share2 className="h-4 w-4" />
                   Automation
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/note-taker")} className="gap-2">
+                  <Notebook className="h-4 w-4" />
+                  Note Taker
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Link to="/about" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
@@ -52,7 +55,6 @@ export const Navigation = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Login Button */}
             <Button 
               onClick={() => navigate("/login")} 
               variant="ghost" 
@@ -62,7 +64,6 @@ export const Navigation = () => {
               Login
             </Button>
 
-            {/* Sign Up Button */}
             <Button 
               onClick={() => navigate("/signup")} 
               className="gap-2 bg-secondary hover:bg-secondary/90"

@@ -15,6 +15,7 @@ import Terms from "./pages/Terms";
 import Login from "./pages/Login";
 import Automation from "./pages/Automation";
 import ChatInterface from "./pages/ChatInterface";
+import NoteTaker from "./pages/NoteTaker";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/automation" element={<Automation />} />
           <Route path="/chat-interface" element={<ChatInterface />} />
+          <Route path="/note-taker" element={<NoteTaker />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
