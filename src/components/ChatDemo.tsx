@@ -22,27 +22,69 @@ export const ChatDemo = () => {
   const [loading, setLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState<"openai" | "claude">("openai");
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      if (selectedFile.size > 5 * 1024 * 1024) { // 5MB limit
+        toast.error("File size should be less than 5MB");
+        return;
+      }
+      setFile(selectedFile);
+    }
+  };
+
+  const readFileContent = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target?.result;
+        resolve(text as string);
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsText(file);
+    });
+  };
+
+  const fetchUrlContent = async (url: string): Promise<string> => {
+    try {
+      const corsProxy = 'https://api.allorigins.win/raw?url=';
+      const response = await fetch(corsProxy + encodeURIComponent(url));
+      if (!response.ok) {
+        throw new Error('Failed to fetch URL content');
+      }
+      const text = await response.text();
+      return text;
+    } catch (error) {
+      console.error('URL fetch error:', error);
+      throw new Error('Failed to fetch URL content');
     }
   };
 
   const handleSubmit = async () => {
+    if (!prompt && !url && !file) {
+      toast.error("Please provide at least one input (prompt, URL, or file)");
+      return;
+    }
+
     try {
       setLoading(true);
       let content = prompt;
 
       if (file) {
-        const text = await file.text();
-        content += "\n\nContent from PDF/Document:\n" + text;
+        try {
+          const fileContent = await readFileContent(file);
+          content += "\n\nContent from Document:\n" + fileContent;
+        } catch (error) {
+          console.error('File reading error:', error);
+          toast.error("Failed to read document");
+          return;
+        }
       }
 
       if (url) {
         try {
-          const response = await fetch(url);
-          const text = await response.text();
-          content += "\n\nContent from URL:\n" + text;
+          const urlContent = await fetchUrlContent(url);
+          content += "\n\nContent from URL:\n" + urlContent;
         } catch (error) {
           console.error('URL fetch error:', error);
           toast.error("Failed to fetch URL content");
@@ -116,7 +158,7 @@ export const ChatDemo = () => {
           <Label>Upload Document (optional)</Label>
           <Input
             type="file"
-            accept=".pdf,.txt,.doc,.docx"
+            accept=".txt,.doc,.docx,.pdf"
             onChange={handleFileChange}
           />
           {file && (
