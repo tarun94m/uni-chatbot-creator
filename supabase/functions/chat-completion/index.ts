@@ -1,6 +1,8 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
+const openAiKey = Deno.env.get('OPENAI_API_KEY');
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -14,17 +16,17 @@ serve(async (req) => {
 
   try {
     console.log('Received request to chat-completion function');
-    const { content } = await req.json();
-    const openAiKey = Deno.env.get('OPENAI_API_KEY');
-
+    
     if (!openAiKey) {
       console.error('OpenAI API key not configured');
       throw new Error('OpenAI API key not configured');
     }
 
-    console.log('Making request to OpenAI API');
+    const { content } = await req.json();
+    console.log('Processing content with OpenAI');
+
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+    const timeout = setTimeout(() => controller.abort(), 30000);
 
     try {
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -47,6 +49,12 @@ serve(async (req) => {
       if (!response.ok) {
         const error = await response.json();
         console.error('OpenAI API error:', error);
+        
+        // Check specifically for quota exceeded error
+        if (error.error?.message?.includes('quota exceeded')) {
+          throw new Error('OpenAI API quota exceeded. Please try again later or contact support.');
+        }
+        
         throw new Error(error.error?.message || 'Failed to process with OpenAI');
       }
 
@@ -74,15 +82,14 @@ serve(async (req) => {
       );
     }
 
-    // Handle OpenAI API errors specifically
-    const errorMessage = error.message.includes('exceeded your current quota')
-      ? 'OpenAI API quota exceeded. Please try again later or contact support.'
-      : error.message;
-
+    // Return a properly formatted error response
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ 
+        error: error.message,
+        status: error.message.includes('quota exceeded') ? 429 : 500
+      }),
       { 
-        status: 500,
+        status: error.message.includes('quota exceeded') ? 429 : 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
