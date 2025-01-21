@@ -25,7 +25,7 @@ export const ChatDemo = () => {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      if (selectedFile.size > 5 * 1024 * 1024) { // 5MB limit
+      if (selectedFile.size > 5 * 1024 * 1024) {
         toast.error("File size should be less than 5MB");
         return;
       }
@@ -47,11 +47,14 @@ export const ChatDemo = () => {
 
   const fetchUrlContent = async (url: string): Promise<string> => {
     try {
-      const corsProxy = 'https://api.allorigins.win/raw?url=';
+      // Using a different CORS proxy service
+      const corsProxy = 'https://corsproxy.io/?';
       const response = await fetch(corsProxy + encodeURIComponent(url));
+      
       if (!response.ok) {
         throw new Error('Failed to fetch URL content');
       }
+      
       const text = await response.text();
       return text;
     } catch (error) {
@@ -145,7 +148,7 @@ export const ChatDemo = () => {
         </div>
 
         <div className="space-y-2">
-          <Label>University URL (optional)</Label>
+          <Label>Website URL (optional)</Label>
           <Input
             type="url"
             placeholder="Enter URL to process..."

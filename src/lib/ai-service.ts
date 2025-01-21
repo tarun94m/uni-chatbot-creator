@@ -9,6 +9,7 @@ export const processWithOpenAI = async (
   content: string
 ): Promise<string> => {
   try {
+    // For development, let's use a more reliable model
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -16,9 +17,10 @@ export const processWithOpenAI = async (
         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4',
         messages: [{ role: 'user', content }],
         temperature: 0.7,
+        max_tokens: 2000,
       }),
     });
 
@@ -32,7 +34,7 @@ export const processWithOpenAI = async (
     return data.choices[0].message.content;
   } catch (error) {
     console.error('OpenAI Error:', error);
-    toast.error('Failed to process with OpenAI: ' + error.message);
+    toast.error('Failed to process with OpenAI: ' + (error as Error).message);
     throw error;
   }
 };
@@ -50,7 +52,7 @@ export const processWithClaude = async (
       },
       body: JSON.stringify({
         model: 'claude-3-opus-20240229',
-        max_tokens: 1024,
+        max_tokens: 2000,
         messages: [{ role: 'user', content }],
       }),
     });
@@ -65,7 +67,7 @@ export const processWithClaude = async (
     return data.content[0].text;
   } catch (error) {
     console.error('Claude Error:', error);
-    toast.error('Failed to process with Claude: ' + error.message);
+    toast.error('Failed to process with Claude: ' + (error as Error).message);
     throw error;
   }
 };
