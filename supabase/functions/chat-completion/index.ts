@@ -1,5 +1,5 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -34,7 +34,7 @@ serve(async (req) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4',
+          model: 'gpt-4o-mini',
           messages: [{ role: 'user', content }],
           temperature: 0.7,
           max_tokens: 2000,
@@ -55,12 +55,7 @@ serve(async (req) => {
       
       return new Response(
         JSON.stringify({ content: data.choices[0].message.content }),
-        { 
-          headers: { 
-            ...corsHeaders, 
-            'Content-Type': 'application/json' 
-          } 
-        }
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     } finally {
       clearTimeout(timeout);
@@ -71,10 +66,7 @@ serve(async (req) => {
     // Check if it's an abort error
     if (error.name === 'AbortError') {
       return new Response(
-        JSON.stringify({ 
-          error: 'Request timed out after 30 seconds',
-          details: error.message 
-        }),
+        JSON.stringify({ error: 'Request timed out after 30 seconds' }),
         { 
           status: 504,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -82,11 +74,13 @@ serve(async (req) => {
       );
     }
 
+    // Handle OpenAI API errors specifically
+    const errorMessage = error.message.includes('exceeded your current quota')
+      ? 'OpenAI API quota exceeded. Please try again later or contact support.'
+      : error.message;
+
     return new Response(
-      JSON.stringify({ 
-        error: error.message,
-        details: error.stack 
-      }),
+      JSON.stringify({ error: errorMessage }),
       { 
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

@@ -16,13 +16,16 @@ export const processWithOpenAI = async (
 
     if (error) {
       console.error('OpenAI Error:', error);
-      throw error;
+      const errorMessage = error.message.includes('quota exceeded')
+        ? 'OpenAI API quota exceeded. Please try again later or contact support.'
+        : error.message;
+      throw new Error(errorMessage);
     }
 
     return data.content;
   } catch (error) {
     console.error('OpenAI Error:', error);
-    toast.error('Failed to process with OpenAI: ' + (error as Error).message);
+    toast.error((error as Error).message);
     throw error;
   }
 };
