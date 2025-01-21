@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 export const ChatDemo = () => {
   const navigate = useNavigate();
@@ -46,35 +47,25 @@ export const ChatDemo = () => {
   };
 
   const fetchUrlContent = async (url: string): Promise<string> => {
-    const proxyUrls = [
-      'https://api.cors.sh/',
-      'https://api.allorigins.win/raw?url=',
-      'https://corsproxy.io/?'
-    ];
+    try {
+      const { data, error } = await supabase.functions.invoke('fetch-url', {
+        body: { url }
+      });
 
-    let lastError;
-    
-    // Try each proxy in sequence until one works
-    for (const proxyUrl of proxyUrls) {
-      try {
-        const response = await fetch(proxyUrl + encodeURIComponent(url));
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const text = await response.text();
-        return text;
-      } catch (error) {
-        console.error(`Error with proxy ${proxyUrl}:`, error);
-        lastError = error;
-        continue; // Try the next proxy
+      if (error) {
+        console.error('Edge function error:', error);
+        throw new Error(error.message);
       }
-    }
 
-    // If we get here, all proxies failed
-    console.error('All proxies failed:', lastError);
-    throw new Error('Failed to fetch URL content. Please try again later or try a different URL.');
+      if (!data?.content) {
+        throw new Error('No content received from URL');
+      }
+
+      return data.content;
+    } catch (error) {
+      console.error('URL fetch error:', error);
+      throw new Error('Failed to fetch URL content. Please try again later.');
+    }
   };
 
   const handleSubmit = async () => {
@@ -104,7 +95,7 @@ export const ChatDemo = () => {
           content += "\n\nContent from URL:\n" + urlContent;
         } catch (error) {
           console.error('URL fetch error:', error);
-          toast.error("Failed to fetch URL content. Please try a different URL or try again later.");
+          toast.error("Failed to fetch URL content. Please try again later.");
           return;
         }
       }
