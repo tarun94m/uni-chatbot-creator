@@ -1,3 +1,4 @@
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface ChatMessage {
@@ -9,29 +10,16 @@ export const processWithOpenAI = async (
   content: string
 ): Promise<string> => {
   try {
-    // For development, let's use a more reliable model
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4',
-        messages: [{ role: 'user', content }],
-        temperature: 0.7,
-        max_tokens: 2000,
-      }),
+    const { data, error } = await supabase.functions.invoke('chat-completion', {
+      body: { content }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('OpenAI Error:', errorData);
-      throw new Error(errorData.error?.message || 'Failed to process with OpenAI');
+    if (error) {
+      console.error('OpenAI Error:', error);
+      throw error;
     }
 
-    const data = await response.json();
-    return data.choices[0].message.content;
+    return data.content;
   } catch (error) {
     console.error('OpenAI Error:', error);
     toast.error('Failed to process with OpenAI: ' + (error as Error).message);
