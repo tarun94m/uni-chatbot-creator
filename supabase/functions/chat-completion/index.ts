@@ -9,7 +9,7 @@ const corsHeaders = {
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders });
+    return new Response(null, { headers: corsHeaders });
   }
 
   try {
@@ -34,7 +34,7 @@ serve(async (req) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'gpt-4',
           messages: [{ role: 'user', content }],
           temperature: 0.7,
           max_tokens: 2000,
@@ -55,7 +55,12 @@ serve(async (req) => {
       
       return new Response(
         JSON.stringify({ content: data.choices[0].message.content }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { 
+          headers: { 
+            ...corsHeaders, 
+            'Content-Type': 'application/json' 
+          } 
+        }
       );
     } finally {
       clearTimeout(timeout);
@@ -66,7 +71,10 @@ serve(async (req) => {
     // Check if it's an abort error
     if (error.name === 'AbortError') {
       return new Response(
-        JSON.stringify({ error: 'Request timed out after 30 seconds' }),
+        JSON.stringify({ 
+          error: 'Request timed out after 30 seconds',
+          details: error.message 
+        }),
         { 
           status: 504,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -75,7 +83,10 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: error.stack 
+      }),
       { 
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
