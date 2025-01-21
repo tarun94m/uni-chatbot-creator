@@ -46,21 +46,35 @@ export const ChatDemo = () => {
   };
 
   const fetchUrlContent = async (url: string): Promise<string> => {
-    try {
-      // Using a different CORS proxy service
-      const corsProxy = 'https://corsproxy.io/?';
-      const response = await fetch(corsProxy + encodeURIComponent(url));
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch URL content');
+    const proxyUrls = [
+      'https://api.cors.sh/',
+      'https://api.allorigins.win/raw?url=',
+      'https://corsproxy.io/?'
+    ];
+
+    let lastError;
+    
+    // Try each proxy in sequence until one works
+    for (const proxyUrl of proxyUrls) {
+      try {
+        const response = await fetch(proxyUrl + encodeURIComponent(url));
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const text = await response.text();
+        return text;
+      } catch (error) {
+        console.error(`Error with proxy ${proxyUrl}:`, error);
+        lastError = error;
+        continue; // Try the next proxy
       }
-      
-      const text = await response.text();
-      return text;
-    } catch (error) {
-      console.error('URL fetch error:', error);
-      throw new Error('Failed to fetch URL content');
     }
+
+    // If we get here, all proxies failed
+    console.error('All proxies failed:', lastError);
+    throw new Error('Failed to fetch URL content. Please try again later or try a different URL.');
   };
 
   const handleSubmit = async () => {
@@ -90,7 +104,7 @@ export const ChatDemo = () => {
           content += "\n\nContent from URL:\n" + urlContent;
         } catch (error) {
           console.error('URL fetch error:', error);
-          toast.error("Failed to fetch URL content");
+          toast.error("Failed to fetch URL content. Please try a different URL or try again later.");
           return;
         }
       }
