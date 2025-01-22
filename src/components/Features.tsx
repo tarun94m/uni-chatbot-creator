@@ -1,4 +1,4 @@
-import { Bot, Globe, FileText, Share2 } from "lucide-react";
+import { Bot, Globe, FileText, Video } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const features = [
@@ -22,10 +22,10 @@ const features = [
     path: "/chatbot",
   },
   {
-    title: "Automation",
-    description: "Streamline university operations with intelligent automation",
-    icon: Share2,
-    path: "/automation",
+    title: "Mock Interview",
+    description: "Practice interviews with AI-powered feedback",
+    icon: Video,
+    path: "/mock-interview",
   },
 ];
 

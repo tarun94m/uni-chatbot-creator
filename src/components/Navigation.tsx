@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown, Cpu, Share2, Notebook } from "lucide-react";
+import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown, Cpu, Notebook, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -34,9 +34,9 @@ export const Navigation = () => {
                   <MessageSquare className="h-4 w-4" />
                   Chatbot
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/automation")} className="gap-2">
-                  <Share2 className="h-4 w-4" />
-                  Automation
+                <DropdownMenuItem onClick={() => navigate("/mock-interview")} className="gap-2">
+                  <Video className="h-4 w-4" />
+                  Mock Interview
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/note-taker")} className="gap-2">
                   <Notebook className="h-4 w-4" />

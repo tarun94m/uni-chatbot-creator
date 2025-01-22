@@ -13,9 +13,9 @@ import SignUp from "./pages/SignUp";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Login from "./pages/Login";
-import Automation from "./pages/Automation";
 import ChatInterface from "./pages/ChatInterface";
 import NoteTaker from "./pages/NoteTaker";
+import MockInterview from "./pages/MockInterview";
 
 const queryClient = new QueryClient();
 
@@ -36,9 +36,9 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/automation" element={<Automation />} />
           <Route path="/chat-interface" element={<ChatInterface />} />
           <Route path="/note-taker" element={<NoteTaker />} />
+          <Route path="/mock-interview" element={<MockInterview />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
