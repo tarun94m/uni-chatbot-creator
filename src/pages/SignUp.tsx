@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   universityName: z.string().min(2, "University name must be at least 2 characters"),
@@ -30,6 +31,7 @@ const formSchema = z.object({
 const SignUp = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,20 +44,42 @@ const SignUp = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log("Form submitted:", values);
+      setIsLoading(true);
       
-      toast({
-        title: "Sign up successful!",
-        description: "Welcome to AIversity",
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          data: {
+            university_name: values.universityName,
+          },
+        },
       });
-      
-      navigate("/");
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Sign up failed",
+          description: error.message,
+        });
+        return;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Sign up successful!",
+          description: "Please check your email to verify your account.",
+        });
+        navigate("/login");
+      }
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
         description: "Something went wrong. Please try again.",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -78,7 +102,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel>University Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter university name" {...field} />
+                      <Input placeholder="Enter university name" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -92,7 +116,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel>University Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="university@edu" {...field} />
+                      <Input type="email" placeholder="university@edu" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -106,15 +130,15 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               
-              <Button type="submit" className="w-full">
-                Sign Up
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Creating account..." : "Sign Up"}
               </Button>
             </form>
           </Form>
