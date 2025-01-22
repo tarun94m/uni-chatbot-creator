@@ -37,28 +37,20 @@ export const processWithClaude = async (
 ): Promise<string> => {
   try {
     console.log('Processing with Claude:', content);
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY!,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-3-opus-20240229',
-        max_tokens: 2000,
-        messages: [{ role: 'user', content }],
-      }),
+    const { data, error } = await supabase.functions.invoke('claude-completion', {
+      body: { content }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Claude Error:', errorData);
-      throw new Error(errorData.error?.message || 'Failed to process with Claude');
+    if (error) {
+      console.error('Claude Error:', error);
+      throw new Error(error.message);
     }
 
-    const data = await response.json();
-    return data.content[0].text;
+    if (!data?.content) {
+      throw new Error('No response received from Claude');
+    }
+
+    return data.content;
   } catch (error) {
     console.error('Claude Error:', error);
     toast.error('Failed to process with Claude: ' + (error as Error).message);

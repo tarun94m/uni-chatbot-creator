@@ -1,8 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const openAiKey = Deno.env.get('OPENAI_API_KEY');
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -17,6 +15,7 @@ serve(async (req) => {
   try {
     console.log('Received request to chat-completion function');
     
+    const openAiKey = Deno.env.get('OPENAI_API_KEY');
     if (!openAiKey) {
       console.error('OpenAI API key not configured');
       throw new Error('OpenAI API key not configured');
@@ -32,7 +31,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4',
         messages: [{ role: 'user', content }],
         temperature: 0.7,
         max_tokens: 2000,

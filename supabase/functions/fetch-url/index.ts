@@ -7,7 +7,6 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -15,10 +14,6 @@ serve(async (req) => {
   try {
     const { url } = await req.json();
     console.log('Fetching URL:', url);
-
-    if (!url) {
-      throw new Error('URL is required');
-    }
 
     const response = await fetch(url);
     if (!response.ok) {
