@@ -48,6 +48,7 @@ export const ChatDemo = () => {
 
   const fetchUrlContent = async (url: string): Promise<string> => {
     try {
+      console.log('Fetching URL content:', url);
       const { data, error } = await supabase.functions.invoke('fetch-url', {
         body: { url }
       });
@@ -80,6 +81,7 @@ export const ChatDemo = () => {
 
       if (file) {
         try {
+          console.log('Reading file content');
           const fileContent = await readFileContent(file);
           content += "\n\nContent from Document:\n" + fileContent;
         } catch (error) {
@@ -91,11 +93,12 @@ export const ChatDemo = () => {
 
       if (url) {
         try {
+          console.log('Fetching URL content');
           const urlContent = await fetchUrlContent(url);
           content += "\n\nContent from URL:\n" + urlContent;
         } catch (error) {
           console.error('URL fetch error:', error);
-          toast.error("Failed to fetch URL content. Please try again later.");
+          toast.error("Failed to fetch URL content");
           return;
         }
       }

@@ -10,22 +10,24 @@ export const processWithOpenAI = async (
   content: string
 ): Promise<string> => {
   try {
+    console.log('Processing with OpenAI:', content);
     const { data, error } = await supabase.functions.invoke('chat-completion', {
       body: { content }
     });
 
     if (error) {
       console.error('OpenAI Error:', error);
-      const errorMessage = error.message.includes('quota exceeded')
-        ? 'OpenAI API quota exceeded. Please try again later or contact support.'
-        : error.message;
-      throw new Error(errorMessage);
+      throw new Error(error.message);
+    }
+
+    if (!data?.content) {
+      throw new Error('No response received from OpenAI');
     }
 
     return data.content;
   } catch (error) {
     console.error('OpenAI Error:', error);
-    toast.error((error as Error).message);
+    toast.error('Failed to process with OpenAI: ' + (error as Error).message);
     throw error;
   }
 };
@@ -34,6 +36,7 @@ export const processWithClaude = async (
   content: string
 ): Promise<string> => {
   try {
+    console.log('Processing with Claude:', content);
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
