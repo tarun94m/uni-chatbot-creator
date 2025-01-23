@@ -42,6 +42,10 @@ export const Navigation = () => {
                   <Notebook className="h-4 w-4" />
                   Note Taker
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/resume")} className="gap-2">
+                  <Briefcase className="h-4 w-4" />
+                  Resume Builder
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Link to="/about" className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
