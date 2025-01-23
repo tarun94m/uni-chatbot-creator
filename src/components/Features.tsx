@@ -1,4 +1,4 @@
-import { Bot, Globe, FileText, Video } from "lucide-react";
+import { Bot, Globe, FileText, Video, Briefcase } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const features = [
@@ -27,6 +27,12 @@ const features = [
     icon: Video,
     path: "/mock-interview",
   },
+  {
+    title: "Resume Builder",
+    description: "Create professional resumes with AI assistance",
+    icon: Briefcase,
+    path: "/resume",
+  },
 ];
 
 export const Features = () => {
@@ -44,7 +50,7 @@ export const Features = () => {
             university
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {features.map((feature, index) => (
             <div
               key={index}

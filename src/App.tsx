@@ -16,6 +16,7 @@ import Login from "./pages/Login";
 import ChatInterface from "./pages/ChatInterface";
 import NoteTaker from "./pages/NoteTaker";
 import MockInterview from "./pages/MockInterview";
+import Resume from "./pages/Resume";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/chat-interface" element={<ChatInterface />} />
           <Route path="/note-taker" element={<NoteTaker />} />
           <Route path="/mock-interview" element={<MockInterview />} />
+          <Route path="/resume" element={<Resume />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
