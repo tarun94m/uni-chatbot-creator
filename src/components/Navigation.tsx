@@ -1,4 +1,4 @@
-import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown, Cpu, Notebook, Video } from "lucide-react";
+import { LogIn, UserPlus, Briefcase, Users, Mail, Chrome, MessageSquare, ChevronDown, Cpu, Notebook, Video, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -45,6 +45,10 @@ export const Navigation = () => {
                 <DropdownMenuItem onClick={() => navigate("/resume")} className="gap-2">
                   <Briefcase className="h-4 w-4" />
                   Resume Builder
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/proofreader")} className="gap-2">
+                  <FileText className="h-4 w-4" />
+                  Proofreader
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

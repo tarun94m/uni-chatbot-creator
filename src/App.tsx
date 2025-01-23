@@ -17,6 +17,7 @@ import ChatInterface from "./pages/ChatInterface";
 import NoteTaker from "./pages/NoteTaker";
 import MockInterview from "./pages/MockInterview";
 import Resume from "./pages/Resume";
+import Proofreader from "./pages/Proofreader";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/note-taker" element={<NoteTaker />} />
           <Route path="/mock-interview" element={<MockInterview />} />
           <Route path="/resume" element={<Resume />} />
+          <Route path="/proofreader" element={<Proofreader />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
