@@ -69,7 +69,11 @@
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@tailwindcss/typography": "^0.5.15",
+<<<<<<< HEAD
     "@types/node": "^22.13.9",
+=======
+    "@types/node": "^22.5.5",
+>>>>>>> 26d3b83713b4ae69b96134859e9b87c18e327024
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -81,6 +85,7 @@
     "lovable-tagger": "^1.0.19",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.11",
+<<<<<<< HEAD
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.0.1",
@@ -91,4 +96,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC"
+=======
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.1",
+    "vite": "^5.4.1"
+  }
+>>>>>>> 26d3b83713b4ae69b96134859e9b87c18e327024
 }
